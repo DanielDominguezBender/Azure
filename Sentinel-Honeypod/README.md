@@ -33,14 +33,15 @@ Let's remove the default one and create a new one allowing all incoming traffic.
 ![image5](imgs/image5.png)
 ![image6](imgs/image6.png)
 
--> Configure a new network security group by removing the default role<br>
-	-> Source port ranges: *<br>
-	-> Destination: Any<br>
-	-> Destination port ranges: *<br>
-	-> Protocol: Any<br>
-	-> Actions: Allow<br>
-	-> Priority: 100<br>
-	-> Name: Everyone_is_allowed<br>
+Configure a new network security group by removing the default role<br>
+	- Source port ranges: *<br>
+	- Destination: Any<br>
+	- Destination port ranges: *<br>
+	- Protocol: Any<br>
+	- Actions: Allow<br>
+	- Priority: 100<br>
+	- Name: Everyone_is_allowed<br>
+ 
 <br>
 ![image7](imgs/image7.png)
 
