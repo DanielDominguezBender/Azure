@@ -238,6 +238,7 @@ On the Azure logs tab, I used a simple query filtering by the eventID 4625 and e
 
 Playing around with the CVS file, I was able to see what were the most used USERD ID's.
 This is something that I could do as well in Azure, by adapting a bit the previous query.
+<br>
 ![image51](imgs/image51.png)
 
 By the time I shut down the VM, the most used USER ID was ```administrator```.
