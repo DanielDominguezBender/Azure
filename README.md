@@ -9,5 +9,5 @@ On this lab I will create a VM machine and run a web server that will be accessi
 2. Connection to VM machine via RDP<br>
 3. Install the web server and access it<br><br>
 
-- [Azure Sentinel]()<br>
+- [Azure Sentinel](https://github.com/DanielDominguezBender/Azure/tree/main/Sentinel-Honeypod)<br>
 On this lab I created a Honeypod in Azure Sentinel and showed the attacks on a Worldmap / Headmap.
