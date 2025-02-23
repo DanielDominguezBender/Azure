@@ -41,8 +41,8 @@ Configure a new network security group by removing the default role<br>
 	- Actions: Allow<br>
 	- Priority: 100<br>
 	- Name: Everyone_is_allowed<br>
- 
-<br>
+ <br>
+
 ![image7](imgs/image7.png)
 
 Now we can create the VM. The deployment can take some time, so be patient.
