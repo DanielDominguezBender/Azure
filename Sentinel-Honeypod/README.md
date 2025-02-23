@@ -3,7 +3,7 @@ Created a Honeypod using Azure Sentinel
 
 Below a short diagram on how the Lab will look like.
 
-![image1](imgs/Screenshot 2025-01-26 at 13.39.54 1.png)
+![image1](imgs/image1.png)
 
 ## Intro
 
@@ -13,56 +13,58 @@ Here the link: https://www.youtube.com/watch?v=RoZeVbbZ0o0
 But I found the idea interesting and wanted to try somehting similar for quite sometime.
 
 ## 1) Create VM-Machine
-username: AzureSIEMhoneypod
-password: 2e5t7u8p!1q@w
 
-![[Screenshot 2025-01-26 at 12.43.58.png]]
-![[Screenshot 2025-01-26 at 12.44.53.png]]
-![[Screenshot 2025-01-26 at 12.46.11.png]]
-Check on networking tab:
+I looked for ```Virtual Machines``` in the search bar.
+![image2](imgs/image2.png)
 
-Under NETWORK tab is where the "firewall" rules need to be created.
+First of all let's create a new ```Resource group```.
+![image3](imgs/image3.png)
 
+And now fill out the the VM details.
+![image4](imgs/image4.png)
+<br>
+Check on networking tab (under NETWORK tab is where the "firewall" rules needs to be created).
+<br>
 -> NIC network security group, click on advance and create a new security group.
-
+<br>
 The **NIC Network Security Group (NSG)** in Azure is a security feature associated with the **Network Interface Card (NIC)** of a virtual machine (VM). It controls inbound and outbound traffic to the VM at the network interface level.
 
 Let's remove the default one and create a new one allowing all incoming traffic.
-![[Screenshot 2025-02-03 at 12.58.31.png]]
-![[Screenshot 2025-02-03 at 12.59.22.png]]
+![image5](imgs/image5.png)
+![image6](imgs/image6.png)
 
--> Configure a new network security group by removing the default role
-	-> Source port ranges: *
-	-> Destination: Any
-	-> Destination port ranges: *
-	-> Protocol: Any
-	-> Actions: Allow
-	-> Priority: 100
-	-> Name: Everyone_is_allowed
-
-![[Screenshot 2025-02-03 at 13.00.48.png]]
+-> Configure a new network security group by removing the default role<br>
+	-> Source port ranges: *<br>
+	-> Destination: Any<br>
+	-> Destination port ranges: *<br>
+	-> Protocol: Any<br>
+	-> Actions: Allow<br>
+	-> Priority: 100<br>
+	-> Name: Everyone_is_allowed<br>
+<br>
+![image7](imgs/image7.png)
 
 Now we can create the VM. The deployment can take some time, so be patient.
 
-![[Screenshot 2025-01-26 at 16.42.38.png]]
+![image8](imgs/image8.png)
 
-Once VM is created, we can access it connecting remotely. As I use a Mac, the tool used is Windows App.
+Once VM is created, you can access it by connecting remotely. As I use a Mac, the tool used is Windows App.
 
-![[Screenshot 2025-02-03 at 13.08.30.png]]
+![image9](imgs/image9.png)
 
 To access the virtual machine, add a new PC in the app.
 
-![[Screenshot 2025-02-03 at 13.09.11.png]]
+![image10](imgs/image10.png)
 
-To do so, just copy paste the public IP you received after the machine is deployed, under Overview tab.
+To do so, just copy paste the **public IP** you received after the machine is deployed, under ```Overview tab```.
 
-![[Screenshot 2025-02-03 at 13.09.52.png]]
+![image11](imgs/image11.png)
 
 To check the information of this VM, you can do it under System Settings.
 
-![[Screenshot 2025-01-26 at 16.47.32.png]]
+![image12](imgs/image12.png)
 
-![[Screenshot 2025-01-26 at 16.47.51 1.png]]
+![image13](imgs/image13.png)
 
 **Note**: Device name changed as I had to redo all the previous steps :)
 
@@ -70,55 +72,66 @@ To check the information of this VM, you can do it under System Settings.
 
 In here I will create custom logs that contains geographic information.
 
-![[Screenshot 2025-02-03 at 13.34.57.png]]
+![image14](imgs/image14.png)
 
 I used the same resource group as previously created. Just give it a name and the region (same used as for the VM).
-![[Screenshot 2025-02-03 at 13.35.56.png]]
+
+![image15](imgs/image15.png)
+
 ## 3) Microsoft Defender for Cloud
 
 In here I enable the ability to gather logs from the VM into the Log Analytics Workspace.
 Under **Management** on the left side of the panel, chose ```Environment settings```, and do all the way down till the Log Analytics Workspace created previously is visible.
-![[Screenshot 2025-02-03 at 14.00.44.png]]
 
+![image16](imgs/image16.png)
 
 In here I activate the ```Defender plans```with exception of **SQL Servers**, as it's not needed in this Lab example. Click on ```save```.
 
-![[Screenshot 2025-02-03 at 14.03.17.png]]
+![image17](imgs/image17.png)
+
 After this, under ```Data collection``` I selected **All events** and saves the changes.
-![[Screenshot 2025-02-03 at 14.05.00.png]]
+
+![image18](imgs/image18.png)
 
 ## 4) Connect LAW to the VM
 
 I went back to Log Analytics workspaces and selected the one record I had: ```law-honeypodAzure```.
 Under ```Classic -> Virtual Machines (deprecated)``` select the VM.
-![[Screenshot 2025-02-03 at 14.11.36.png]]
 
+![image19](imgs/image19.png)
 
 And connect it.
-![[Screenshot 2025-02-03 at 14.13.36.png]]
+
+![image20](imgs/image20.png)
 ## 5) Set up Sentinel
 
 It's time to set up SENTINEL, just check for it in the search bar.
 
-![[Screenshot 2025-02-03 at 16.00.09.png]]
+![image21](imgs/image21.png)
+
 Clicked on ```Create Microsoft Sentinel``` and selected the workspace already created.
-![[Screenshot 2025-02-03 at 16.01.09.png]] 
-![[Screenshot 2025-02-03 at 16.02.06.png]]
+![image22](imgs/image22.png)
+![image23](imgs/image23.png)
+
 ## 6) Set up event logs in VM machine
 
 Enter the VM again and check for the ```Event Viewer -> Windows Logs -> Security``` (this can take a while to load all events).
-![[Screenshot 2025-02-03 at 16.08.02.png]]
+![image24](imgs/image24.png)
+
 The idea is to focus on a specific type of events, the ```Audit Failure```on a log in attempt.
 In order to see one, I will make a failed log in attempt to get the ```Event ID```. So what I did was to block my session with ```Ctrl + D```and log into the machine using a wrong password on purpose.
-![[Screenshot 2025-02-03 at 16.13.04.png]]
+
+![image25](imgs/image25.png)
+
 Now I have the needed ```Event ID -> 4625```.
 
 By double clicking the event, I can see what happened and the IP that tried to log in to my VM.
-![[Screenshot 2025-02-03 at 16.26.26 1.png]]
+
+![image26](imgs/image26.png)
 
 The idea behind this is to use an Geolocation API that provides the Altitude and Latitude of the IP that tried to log in to the VM machine.
 
-![[Screenshot 2025-02-03 at 17.22.59 1.png]]
+![image27](imgs/image27.png)
 
 In order to maximize the chances to make this VM "discoverable" in the internet, I will turn off the Firewall.
 Will try ping it from my own machine before and after turning off the MS Firewall.
@@ -126,53 +139,58 @@ Will try ping it from my own machine before and after turning off the MS Firewal
 In order to do so, I will use the PowerShell script already created by Josh Madakor.
 
 Before:
-![[Screenshot 2025-02-03 at 16.42.47.png]]
-
+![image28](imgs/image28.png)
 
 After:
-![[Screenshot 2025-02-03 at 18.26.41.png]]
+![image29](imgs/image29.png)
 
 To turn off the firewall I can search for Firewall in the search bar and turn of the available options for Domain, Public and Private.
-![[Screenshot 2025-02-03 at 16.45.16.png]]
-Or also look type the specific command ```wf.msc```and turn off the same options as before.
-![[Screenshot 2025-02-03 at 16.46.49.png]]
-Now the Firewall is not active anymore in this VM.
+![image30](imgs/image30.png)
 
-![[Screenshot 2025-02-03 at 16.47.05.png]]
+Or also look type the specific command ```wf.msc```and turn off the same options as before.
+![image31](imgs/image31.png)
+
+Now the Firewall is not active anymore in this VM.
+![image32](imgs/image32.png)
 
 ## 7) Create the PowerShell script
 
 On this part, the PS script will help to allocate in a map the attacks, thanks to converting the ```lat & long```from the IPGEOLOCATION web.
 For this I need to create a personal API KEY.
-![[Screenshot 2025-02-03 at 18.33.20.png]]
+![image33](imgs/image33.png)
+
 I just replaced the API KEY Josh used for his demonstration, as that part of the code is hardcoded. What the script does is basically filtering **Event Logs for Failed RDP Attempts**, that's why the previous ```Event ID```was so important, and by checking the IP of the attacker, it converts the geolocation in to a visual example with a Map.
-![[Screenshot 2025-02-03 at 18.34.32.png]]
+![image34](imgs/image34.png)
+
 ## 8) Create a custom LOG inside of the LAW
 
 In Azure portal, I had to look for the **Custom Log wizard**, as this step is a bit different that from the guide from Josh Madakor.
 ```LAW -> my_workspace -> Tables```
+![image35](imgs/image35.png)
 
-![[Screenshot 2025-02-03 at 18.55.20.png]]
 In here I loaded a sample file under ```+ Create -> New custom log (MMA-based)```. I created that sample by running the previous script, it generates a log fle under ```%ProgramData%```.
-![[Screenshot 2025-02-03 at 18.59.54.png]]
+![image36](imgs/image36.png)
+
 I just copy pasted the data of the file on the host machine to use it as a sample to load in LAW in Azure.
 Under collection paths, I select ```Windows```and the path of the log file in the Windows VM machine, which was ```C:\ProgramData\failed_rdp.log```. This path needs to be exactly the same as in the VM otherwise it will not collect the data correctly.
-![[Screenshot 2025-02-03 at 19.02.32.png]]
+![image37](imgs/image37.png)
 
 I named my custom table ```Failed_rdp_GEO```.
-![[Screenshot 2025-02-03 at 19.07.06.png]]
+![image38](imgs/image38.png)
+
 To check if this works, I can go back to ```LAW -> Logs```and run the Query for ```SecurityEvents``` by filtering the Event ID, as the custom logs will take a while to load.
 Query would be: ```SecurityEvent | where EventID == 4625```
 As I can see, I already get some log in attempts.
-![[Screenshot 2025-02-03 at 19.15.50.png]]
-By looking for the IP on the first line, I see the attempt come from Vietnam :) (that was fast, was not expecting to get some data so soon while I'm still on the stes of creating this lab).
+![image39](imgs/image39.png)
 
-![[Screenshot 2025-02-03 at 19.18.31.png]]
+By looking for the IP on the first line, I see the attempt come from Vietnam :) (that was fast, was not expecting to get some data so soon while I'm still on the stes of creating this lab).
+![image40](imgs/image40.png)
+
 I let the VM sync for a couple of hours and could see some attacks.
-![[Screenshot 2025-02-03 at 21.09.52.png]]
+![image41](imgs/image41.png)
 
 On this part, Josh was able to extract the needed data / ID's and train the sample data. Seems this steps is not possibel anymore or at least I was not able to find out how to do that. I checked if I had some missing rights for this, but seems not have been the case.
-![[Screenshot 2025-02-04 at 17.52.48.png]]
+![image42](imgs/image42.png)
 
 So as a workaround, on the next part, which is to create the heatmap to show the location of all attacks, I had to create en alternative SQL Query to filter out the needed data.
 
@@ -189,33 +207,39 @@ A **heatmap** is a data visualization technique that represents values using var
 
 Let's create the heatmap!
 I went to the ```Microsoft Sentinel``` and clicked on the created LAW.
-![[Screenshot 2025-02-04 at 18.04.11.png]]
+![image43](imgs/image43.png)
+
 On the ```Overview``` tab I was able to see some preview of the attacks, listing the events. 
-![[Screenshot 2025-02-04 at 18.04.27.png]]
+![image44](imgs/image44.png)
+
 In this part, I created a new customizable dashboard (after deleting the one showing as default) used to visualize and analyze data from **Azure Monitor**, **Log Analytics**, and other Azure services. It allows to create interactive reports, combine multiple data sources, and build rich visualizations, including **heatmaps**.
 This type of dashboards are called: ```workbook```
 As default there are listed a couple of widgets that can be removed.
-![[Screenshot 2025-02-04 at 18.05.05.png]]
+![image45](imgs/image45.png)
+
 To remove the existing widgets, I just clicked on the right ```Edit```button and selected ```Remove```.
-![[Screenshot 2025-02-04 at 18.05.19.png]]
+![image46](imgs/image46.png)
+
 To create a new one, just clicked on ```+ Add > Add query```.
-![[Screenshot 2025-02-04 at 18.05.37.png]]
+![image47](imgs/image47.png)
+
 On the field for the Query, I just added my own as I was not able to recreate the step where Josh extracted the id's to train the sample data.
 By the time I started playing with the Query, my VM was online for a couple of days, that's why the heatmap shows so many connection attemps.
-![[Screenshot 2025-02-04 at 20.16.42.png]]
+![image48](imgs/image48.png)
 
 ## 10) What was the most used LOGIN credential?
 
 After a couple of more days, I checked the logs in the VM and the new Heatmap again, I saw that the ammount of login attempts increased by a lot.
-![[Screenshot 2025-02-06 at 08.05.54.png]]
+![image49](imgs/image49.png)
+
 I decided to check what type of USER ID the attackers were trying. 
 On the Azure logs tab, I used a simple query filtering by the eventID 4625 and exported to an excel the log file.
+![image50](imgs/image50.png)
 
-![[Screenshot 2025-02-06 at 08.07.52.png]]
 Playing around with the CVS file, I was able to see what were the most used USERD ID's.
 This is something that I could do as well in Azure, by adapting a bit the previous query.
+![image51](imgs/image51.png)
 
-![[Screenshot 2025-02-06 at 17.19.22.png]]
 By the time I shut down the VM, the most used USER ID was ```administrator```.
 
 ## 11) Final thought
