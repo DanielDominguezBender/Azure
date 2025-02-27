@@ -1,5 +1,5 @@
-# Azure-Sentinel-HoneyPod
-Created a Honeypod using Azure Sentinel
+# Azure-Sentinel-HoneyPot
+Created a Honeypot using Azure Sentinel
 
 Below a short diagram on how the Lab will look like.
 
@@ -101,7 +101,7 @@ After this, under ```Data collection``` I selected **All events** and saves the 
 
 ## 4) Connect LAW to the VM
 
-I went back to Log Analytics workspaces and selected the one record I had: ```law-honeypodAzure```.
+I went back to Log Analytics workspaces and selected the one record I had: ```law-honeypotAzure```.
 Under ```Classic -> Virtual Machines (deprecated)``` select the VM.
 
 ![image19](imgs/image19.png)
