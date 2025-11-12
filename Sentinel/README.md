@@ -204,7 +204,7 @@ As I can see, I already get some log in attempts.
 
 ![image39](imgs/image39.png)
 
-By looking for the IP on the first line, I see the attempt come from Vietnam :) (that was fast, was not expecting to get some data so soon while I'm still on the stes of creating this lab).
+By looking for the IP on the first line, I see the attempt come from Vietnam :) (that was fast, was not expecting to get some data so soon while I'm still on this step of creating this lab).
 
 ![image40](imgs/image40.png)
 
