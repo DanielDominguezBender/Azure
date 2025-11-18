@@ -109,6 +109,7 @@ Under ```Classic -> Virtual Machines (deprecated)``` select the VM.
 And connect it.
 
 ![image20](imgs/image20.png)
+
 ## 5) Set up Sentinel
 
 It's time to set up SENTINEL, just check for it in the search bar.
